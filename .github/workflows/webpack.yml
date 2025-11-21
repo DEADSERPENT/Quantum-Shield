@@ -1,8 +1,8 @@
-name: NodeJS with Webpack
+name: NodeJS with Next.js
 
 on:
   push:
-    branches: [ "main",  ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -25,5 +25,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build with Webpack
-      run: npx webpack
+    - name: Run linter
+      run: npm run lint
+
+    - name: Build with Next.js
+      run: npm run build

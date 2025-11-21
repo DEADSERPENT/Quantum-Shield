@@ -1,4 +1,4 @@
-name: NodeJS with Grunt
+name: NodeJS with Next.js
 
 on:
   push:
@@ -22,14 +22,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    # vital: installs local grunt from package.json
     - name: Install dependencies
       run: npm ci
 
-    # Optional: Only needed if you run grunt directly, 
-    # but usually 'npx grunt' or 'npm test' is better.
-    - name: Install Grunt CLI
-      run: npm install -g grunt-cli
+    - name: Run linter
+      run: npm run lint
 
-    - name: Build with Grunt
-      run: grunt
+    - name: Build with Next.js
+      run: npm run build

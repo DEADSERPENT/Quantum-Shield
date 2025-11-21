@@ -1,4 +1,4 @@
-name: NodeJS with Gulp
+name: NodeJS with Next.js
 
 on:
   push:
@@ -25,8 +25,8 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Install Gulp CLI
-      run: npm install -g gulp-cli
+    - name: Run linter
+      run: npm run lint
 
-    - name: Build with Gulp
-      run: gulp
+    - name: Build with Next.js
+      run: npm run build
