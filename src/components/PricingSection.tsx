@@ -61,7 +61,7 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
       style={{ transitionDelay: `${index * 100}ms` }}
     >
       {tier.badge && (
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20">
           <span className="bg-gradient-to-r from-quantum-cyan to-quantum-violet px-4 py-1 rounded-full text-xs font-semibold text-white shadow-neon-cyan">
             {tier.badge}
           </span>

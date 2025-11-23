@@ -9,32 +9,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Enhanced quantum theme colors
+        // Enhanced quantum theme colors with CSS variable support
         quantum: {
-          black: '#030712',
-          charcoal: '#111827',
-          dark: '#0f172a',
-          cyan: '#00ffff',
-          'cyan-bright': '#00ffea',
+          black: 'rgb(var(--quantum-black) / <alpha-value>)',
+          charcoal: 'rgb(var(--quantum-charcoal) / <alpha-value>)',
+          dark: 'rgb(var(--quantum-dark) / <alpha-value>)',
+          cyan: 'rgb(var(--quantum-cyan) / <alpha-value>)',
+          'cyan-bright': 'rgb(var(--quantum-cyan-bright) / <alpha-value>)',
           'cyan-glow': '#22d3ee',
-          violet: '#8b5cf6',
-          'violet-bright': '#a78bfa',
+          violet: 'rgb(var(--quantum-violet) / <alpha-value>)',
+          'violet-bright': 'rgb(var(--quantum-violet-bright) / <alpha-value>)',
           'violet-deep': '#6d28d9',
-          magenta: '#f0abfc',
-          pink: '#ec4899',
-          blue: '#3b82f6',
+          magenta: 'rgb(var(--quantum-magenta) / <alpha-value>)',
+          pink: 'rgb(var(--quantum-pink) / <alpha-value>)',
+          blue: 'rgb(var(--quantum-blue) / <alpha-value>)',
         },
         // Glassmorphism colors
         glass: {
-          primary: 'rgba(255, 255, 255, 0.03)',
-          secondary: 'rgba(255, 255, 255, 0.06)',
-          border: 'rgba(255, 255, 255, 0.08)',
+          primary: 'rgb(var(--glass-primary) / 0.03)',
+          secondary: 'rgb(var(--glass-primary) / 0.06)',
+          border: 'rgb(var(--glass-border) / 0.08)',
         },
       },
       fontFamily: {
-        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-        display: ['Syne', 'sans-serif'],
+        sans: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'Fira Code', 'monospace'],
+        display: ['var(--font-syne)', 'sans-serif'],
       },
       backgroundImage: {
         'quantum-gradient': 'linear-gradient(135deg, #030712 0%, #111827 50%, #0f172a 100%)',

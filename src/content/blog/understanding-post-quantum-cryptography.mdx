@@ -1,0 +1,54 @@
+---
+title: "Understanding Post-Quantum Cryptography"
+excerpt: "A deep dive into why we need quantum-safe encryption and how it works."
+date: "2025-01-15"
+category: "Technology"
+readTime: "8 min read"
+author: "Dr. Priya Sharma"
+slug: "understanding-post-quantum-cryptography"
+---
+
+# Understanding Post-Quantum Cryptography
+
+The advent of quantum computing poses an unprecedented threat to modern cryptographic systems. Current encryption methods like RSA and ECC rely on mathematical problems that are computationally hard for classical computers but can be efficiently solved by quantum computers using algorithms like Shor's algorithm.
+
+## The Quantum Threat
+
+Quantum computers leverage quantum mechanical phenomena like superposition and entanglement to perform certain calculations exponentially faster than classical computers. This capability threatens:
+
+- **RSA encryption** - Used in TLS/SSL certificates, digital signatures
+- **Elliptic Curve Cryptography (ECC)** - Used in Bitcoin, secure messaging
+- **Diffie-Hellman key exchange** - Foundation of secure communications
+
+## NIST's Post-Quantum Standards
+
+In 2024, NIST standardized three primary post-quantum algorithms:
+
+### ML-KEM (Kyber)
+- **Purpose**: Key encapsulation mechanism for encryption
+- **Security levels**: ML-KEM-512, ML-KEM-768, ML-KEM-1024
+- **Based on**: Module Learning With Errors (MLWE) problem
+
+### ML-DSA (Dilithium)
+- **Purpose**: Digital signatures
+- **Security levels**: ML-DSA-44, ML-DSA-65, ML-DSA-87
+- **Based on**: Module Learning With Errors and Module Short Integer Solution
+
+### SLH-DSA (SPHINCS+)
+- **Purpose**: Stateless hash-based signatures
+- **Advantage**: Based only on hash function security
+
+## Why Act Now?
+
+The threat model includes "harvest now, decrypt later" attacks where adversaries collect encrypted data today to decrypt it once quantum computers become available. Organizations should begin transitioning to post-quantum cryptography immediately to protect long-term sensitive data.
+
+## QuantumShield's Approach
+
+QuantumShield implements all NIST-standardized algorithms in hardware, providing:
+
+- Hardware-accelerated ML-KEM encryption
+- Quantum-safe digital signatures with ML-DSA
+- Hybrid classical-quantum security during transition
+- FIPS 140-3 certified implementation
+
+The future of digital security is quantum-safe, and that future is now.

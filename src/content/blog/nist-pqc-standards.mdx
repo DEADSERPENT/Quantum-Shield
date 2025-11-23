@@ -1,0 +1,108 @@
+---
+title: "NIST PQC Standards: What You Need to Know"
+excerpt: "Breaking down the newly standardized post-quantum algorithms."
+date: "2024-12-28"
+category: "Standards"
+readTime: "6 min read"
+author: "Arjun Mehta"
+slug: "nist-pqc-standards"
+---
+
+# NIST PQC Standards: What You Need to Know
+
+After an eight-year evaluation process, NIST published the first set of post-quantum cryptographic standards in 2024. Understanding these standards is crucial for anyone responsible for cryptographic security.
+
+## The NIST PQC Competition
+
+The selection process:
+- **2016**: Competition announced
+- **2017**: 69 initial submissions
+- **2020**: 15 finalists selected
+- **2022**: 4 algorithms chosen
+- **2024**: Final standards published
+
+## The Three Core Standards
+
+### FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM)
+
+Previously known as CRYSTALS-Kyber, ML-KEM is designed for general encryption purposes.
+
+**Security Levels:**
+- **ML-KEM-512**: Roughly equivalent to AES-128 (~2^170 security)
+- **ML-KEM-768**: Roughly equivalent to AES-192 (~2^233 security)
+- **ML-KEM-1024**: Roughly equivalent to AES-256 (~2^298 security)
+
+**Key Sizes:**
+- Public key: 800-1568 bytes
+- Private key: 1632-3168 bytes
+- Ciphertext: 768-1568 bytes
+
+**Best For:**
+- TLS/SSL encryption
+- VPN tunnels
+- File encryption
+- Secure messaging
+
+### FIPS 204: Module-Lattice-Based Digital Signature Algorithm (ML-DSA)
+
+Previously known as CRYSTALS-Dilithium, ML-DSA provides quantum-safe digital signatures.
+
+**Security Levels:**
+- **ML-DSA-44**: Category 2 security (~2^134 security)
+- **ML-DSA-65**: Category 3 security (~2^190 security)
+- **ML-DSA-87**: Category 5 security (~2^272 security)
+
+**Best For:**
+- Code signing
+- Document signing
+- Certificate authority signatures
+- Software updates
+- Blockchain transactions
+
+### FIPS 205: Stateless Hash-Based Digital Signature Algorithm (SLH-DSA)
+
+Previously known as SPHINCS+, SLH-DSA provides conservative security based only on hash functions.
+
+**Advantages:**
+- Based solely on hash function security
+- No mathematical assumptions
+- Most conservative security
+
+**Best For:**
+- Long-term signatures (decades)
+- Root certificate signing
+- Firmware signing
+- Critical infrastructure
+
+## Implementation Guidelines
+
+### Hybrid Schemes Recommended
+
+NIST recommends combining classical and post-quantum algorithms during transition:
+
+**For Encryption:**
+Combined = Classical-KEM + ML-KEM
+Example: RSA-2048 + ML-KEM-768
+
+**For Signatures:**
+Dual Signature = Classical-Sig + ML-DSA
+Example: ECDSA-P256 + ML-DSA-65
+
+## Getting Started
+
+### For Developers
+1. Use PQC-enabled libraries (liboqs, BouncyCastle)
+2. Implement hybrid schemes
+3. Test performance in your environment
+
+### For Enterprises
+1. Conduct cryptographic inventory
+2. Assess migration timeline
+3. Pilot PQC in non-critical systems
+
+### For Decision Makers
+1. Understand the quantum threat
+2. Allocate budget for migration
+3. Establish PQC policies
+
+The NIST standards provide a solid foundation for the post-quantum era. Early adoption is key to staying ahead of the quantum threat.

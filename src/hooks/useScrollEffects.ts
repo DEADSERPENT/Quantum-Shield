@@ -38,7 +38,9 @@ export function useParallax<T extends HTMLElement = HTMLElement>(speed: number =
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const updateOffset = () => {
       if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const scrolled = window.scrollY;
@@ -50,8 +52,18 @@ export function useParallax<T extends HTMLElement = HTMLElement>(speed: number =
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateOffset();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    updateOffset();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [speed]);

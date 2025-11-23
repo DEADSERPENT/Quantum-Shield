@@ -1,11 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Enhanced Base styles */
 :root {
+  /* Quantum theme colors - RGB values for alpha support */
+  --quantum-cyan: 0 255 255;
+  --quantum-cyan-bright: 0 255 234;
+  --quantum-violet: 139 92 246;
+  --quantum-violet-bright: 167 139 250;
+  --quantum-magenta: 240 171 252;
+  --quantum-pink: 236 72 153;
+  --quantum-black: 3 7 18;
+  --quantum-charcoal: 17 24 39;
+  --quantum-dark: 15 23 42;
+  --quantum-blue: 59 130 246;
+
+  /* Legacy hex colors for backwards compatibility */
   --color-quantum-cyan: #00ffff;
   --color-quantum-cyan-bright: #00ffea;
   --color-quantum-violet: #8b5cf6;
@@ -16,6 +27,10 @@
   --color-quantum-charcoal: #111827;
   --color-quantum-dark: #0f172a;
   --color-quantum-blue: #3b82f6;
+
+  /* Glass morphism */
+  --glass-primary: 255 255 255;
+  --glass-border: 255 255 255;
 }
 
 * {
@@ -29,7 +44,7 @@ html {
 body {
   background: var(--color-quantum-black);
   color: #f8fafc;
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
   overflow-x: hidden;
   line-height: 1.6;
   letter-spacing: -0.01em;

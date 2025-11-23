@@ -1,43 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import {
+  PRODUCT_LINKS,
+  RESOURCE_LINKS,
+  COMPANY_LINKS,
+  SUPPORT_LINKS,
+  LEGAL_LINKS,
+} from '@/constants';
 
 const Footer: React.FC = () => {
-  const productLinks = [
-    { label: 'Overview', href: '/product' },
-    { label: 'Product Design', href: '/product-design' },
-    { label: 'Features', href: '/features' },
-    { label: 'Technology', href: '/technology' },
-    { label: 'Security', href: '/security' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Enterprise', href: '/enterprise' },
-  ];
+  const [year, setYear] = useState<number | null>(null);
 
-  const resourceLinks = [
-    { label: 'Documentation', href: '/documentation' },
-    { label: 'API Reference', href: '/api-reference' },
-    { label: 'Downloads', href: '/downloads' },
-    { label: 'Blog', href: '/blog' },
-  ];
-
-  const companyLinks = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Careers', href: '/careers' },
-    { label: 'Contact', href: '/contact' },
-  ];
-
-  const supportLinks = [
-    { label: 'Help Center', href: '/help' },
-    { label: 'Getting Started', href: '/getting-started' },
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Community', href: '/community' },
-  ];
-
-  const legalLinks = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
-  ];
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
 
   const socialLinks = [
     {
@@ -156,7 +134,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
             <ul className="space-y-2">
-              {productLinks.map((link) => (
+              {PRODUCT_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-500 hover:text-quantum-cyan transition-colors">
                     {link.label}
@@ -170,7 +148,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Resources</h4>
             <ul className="space-y-2">
-              {resourceLinks.map((link) => (
+              {RESOURCE_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-500 hover:text-quantum-cyan transition-colors">
                     {link.label}
@@ -184,7 +162,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2">
-              {companyLinks.map((link) => (
+              {COMPANY_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-500 hover:text-quantum-cyan transition-colors">
                     {link.label}
@@ -198,7 +176,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-2">
-              {supportLinks.map((link) => (
+              {SUPPORT_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-gray-500 hover:text-quantum-cyan transition-colors">
                     {link.label}
@@ -214,11 +192,11 @@ const Footer: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
               <div className="text-sm text-gray-500">
-                © {new Date().getFullYear()} QuantumShield. All rights reserved.
+                © {year ?? 2025} QuantumShield. All rights reserved.
               </div>
             </div>
             <div className="flex flex-wrap justify-center gap-6">
-              {legalLinks.map((link) => (
+              {LEGAL_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

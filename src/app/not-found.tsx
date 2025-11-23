@@ -1,101 +1,214 @@
 'use client';
 
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+interface Particle {
+  left: string;
+  top: string;
+  color: string;
+  delay: string;
+  duration: string;
+}
+
 export default function NotFound() {
+  const [glitchActive, setGlitchActive] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [timestamp, setTimestamp] = useState('');
+
+  // Generate particles only on client side to avoid hydration mismatch
+  const particles = useMemo<Particle[]>(() => {
+    if (!mounted) return [];
+    return [...Array(20)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      color: i % 2 === 0 ? '#00ffff' : '#8b5cf6',
+      delay: `${Math.random() * 2}s`,
+      duration: `${2 + Math.random() * 3}s`,
+    }));
+  }, [mounted]);
+
+  useEffect(() => {
+    setMounted(true);
+    setTimestamp(new Date().toISOString());
+
+    // Random glitch effect
+    const glitchInterval = setInterval(() => {
+      setGlitchActive(true);
+      setTimeout(() => setGlitchActive(false), 150);
+    }, 3000);
+
+    return () => {
+      clearInterval(glitchInterval);
+    };
+  }, []);
+
   return (
-    <main className="bg-quantum-black min-h-screen flex flex-col font-sans overflow-x-hidden selection:bg-quantum-cyan selection:text-quantum-black">
+    <main className="bg-quantum-black min-h-screen flex flex-col overflow-hidden">
       <Header />
 
-      {/* Increased height to min-h-[100vh] & added top padding to compensate for Header */}
-      <section className="relative flex-grow flex flex-col items-center justify-center min-h-[100vh] pt-10 md:pt-20 overflow-hidden">
-        
-        {/* --- CINEMATIC BACKGROUND EFFECTS --- */}
-        
-        {/* Deep Space Gradient */}
-        <div className="absolute inset-0 bg-radial-gradient from-[#0f172a] via-[#030712] to-black opacity-80 z-0" />
-        
-        {/* Animated Starfield / Dust */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-0 mix-blend-overlay" />
-        
-        {/* Responsive sizing for the Singularity Rings to prevent overlap */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] sm:w-[700px] sm:h-[700px] lg:w-[800px] lg:h-[800px] pointer-events-none z-0 opacity-40 md:opacity-60">
-          {/* Outer Ring - Cyan */}
-          <div className="absolute inset-0 border border-quantum-cyan/20 rounded-full animate-[spin_20s_linear_infinite]" />
-          <div className="absolute inset-10 border border-quantum-violet/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-          <div className="absolute inset-32 border-2 border-dashed border-quantum-cyan/10 rounded-full animate-[spin_40s_linear_infinite]" />
-          
-          {/* Inner Glow */}
-          <div className="absolute inset-[30%] bg-quantum-cyan/5 rounded-full blur-[80px] animate-pulse-slow" />
-          <div className="absolute inset-[40%] bg-quantum-violet/10 rounded-full blur-[60px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      <section className="relative flex-grow flex flex-col items-center justify-center min-h-[calc(100vh-80px)] overflow-hidden py-10">
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-quantum-dark via-quantum-black to-quantum-charcoal" />
+
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px',
+            }}
+          />
         </div>
 
-        {/* --- MAIN CONTENT --- */}
+        {/* Floating Particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {particles.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 rounded-full animate-pulse"
+              style={{
+                left: particle.left,
+                top: particle.top,
+                backgroundColor: particle.color,
+                animationDelay: particle.delay,
+                animationDuration: particle.duration,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Quantum Shield 3D Icon - Centered Behind Content */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] opacity-10 pointer-events-none z-0">
+          <svg viewBox="0 0 200 200" className="w-full h-full animate-spin-slow">
+            <defs>
+              <linearGradient id="shieldGrad404" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#00ffff" />
+                <stop offset="50%" stopColor="#8b5cf6" />
+                <stop offset="100%" stopColor="#00ffff" />
+              </linearGradient>
+            </defs>
+            {/* Outer ring */}
+            <circle cx="100" cy="100" r="95" fill="none" stroke="url(#shieldGrad404)" strokeWidth="0.5" strokeDasharray="4 4" />
+            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#shieldGrad404)" strokeWidth="0.3" />
+            {/* Shield shape */}
+            <path
+              d="M100 30 L150 50 L150 100 Q150 150 100 180 Q50 150 50 100 L50 50 Z"
+              fill="none"
+              stroke="url(#shieldGrad404)"
+              strokeWidth="1"
+            />
+            {/* Inner elements */}
+            <circle cx="100" cy="90" r="15" fill="none" stroke="url(#shieldGrad404)" strokeWidth="0.5" />
+            <rect x="90" y="100" width="20" height="25" rx="2" fill="none" stroke="url(#shieldGrad404)" strokeWidth="0.5" />
+          </svg>
+        </div>
+
+        {/* Main Content */}
         <div className="relative z-10 container mx-auto px-4 text-center">
-          
-          {/* Responsive scaling for the 404 Title */}
-          <div className="relative inline-block mb-6">
-            <h1 className="text-[5rem] sm:text-[7rem] md:text-[10rem] lg:text-[12rem] font-display font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-600 drop-shadow-2xl relative z-10">
+          {/* 404 Display */}
+          <div className="relative inline-block mb-4 md:mb-8">
+            <h1
+              className={`text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter ${
+                glitchActive ? 'animate-pulse' : ''
+              }`}
+              style={{
+                background: 'linear-gradient(180deg, #ffffff 0%, #00ffff 50%, #8b5cf6 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                filter: glitchActive ? 'hue-rotate(90deg)' : 'none',
+                textShadow: '0 0 80px rgba(0, 255, 255, 0.2)',
+              }}
+            >
               404
             </h1>
-            {/* Decorative 'Ghost' Text for Blur Effect */}
-            <h1 className="text-[5rem] sm:text-[7rem] md:text-[10rem] lg:text-[12rem] font-display font-bold leading-none tracking-tighter text-quantum-cyan absolute top-0 left-0 blur-xl opacity-40 animate-pulse z-0">
-              404
-            </h1>
+
+            {/* Glitch layers */}
+            {glitchActive && (
+              <>
+                <h1
+                  className="absolute top-0 left-0 text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-cyan opacity-70"
+                  style={{ transform: 'translate(-3px, -3px)', clipPath: 'inset(0 0 50% 0)' }}
+                >
+                  404
+                </h1>
+                <h1
+                  className="absolute top-0 left-0 text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-violet opacity-70"
+                  style={{ transform: 'translate(3px, 3px)', clipPath: 'inset(50% 0 0 0)' }}
+                >
+                  404
+                </h1>
+              </>
+            )}
           </div>
 
-          <div className="max-w-2xl mx-auto space-y-8">
-            <h2 className="text-2xl md:text-4xl font-light tracking-wide text-white">
-              Event Horizon <span className="font-bold text-quantum-cyan">Reached</span>
+          {/* Error Message */}
+          <div className="max-w-xl mx-auto space-y-5">
+            <h2 className="text-2xl md:text-3xl font-display">
+              <span className="text-white">Quantum </span>
+              <span className="gradient-text">Anomaly Detected</span>
             </h2>
-            
-            <p className="text-lg text-gray-400 leading-relaxed">
-              You've ventured into an unexplored sector of the quantum realm. 
-              The coordinates you requested have collapsed into a singularity.
+
+            <p className="text-base md:text-lg text-gray-400 leading-relaxed max-w-lg mx-auto">
+              The page you&apos;re looking for has collapsed into a quantum superposition.
+              It simultaneously exists and doesn&apos;t exist until observed elsewhere.
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
-              <Link 
-                href="/" 
-                className="group relative px-8 py-4 bg-transparent overflow-hidden rounded-lg"
-              >
-                <div className="absolute inset-0 w-full h-full transition-all duration-300 ease-out opacity-0 group-hover:opacity-100 bg-quantum-cyan/10 border border-quantum-cyan/50 rounded-lg shadow-[0_0_30px_rgba(0,255,255,0.3)]" />
-                <div className="absolute inset-0 w-full h-full border border-white/10 rounded-lg group-hover:opacity-0" />
-                <span className="relative flex items-center gap-3 text-white font-semibold tracking-wider">
-                  <svg className="w-5 h-5 text-quantum-cyan transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                  RETURN HOME
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Link href="/" className="btn-primary group w-full sm:w-auto">
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  Return Home
                 </span>
               </Link>
 
-              <Link 
-                href="/features" 
-                className="group px-8 py-4 rounded-lg text-gray-400 hover:text-white transition-colors flex items-center gap-2"
-              >
-                <span>Explore Features</span>
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              <Link href="/help" className="btn-secondary group w-full sm:w-auto">
+                <span className="flex items-center justify-center gap-2">
+                  Help Center
+                  <svg
+                    className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </span>
               </Link>
             </div>
           </div>
 
-          {/* Technical Footer Data */}
-          <div className="mt-24 grid grid-cols-3 gap-4 max-w-lg mx-auto text-[10px] text-gray-600 font-mono uppercase tracking-widest border-t border-white/5 pt-6">
-            <div>
-              <span className="block text-quantum-violet mb-1">Error</span>
-              Page_Not_Found
-            </div>
-            <div className="border-l border-r border-white/5">
-              <span className="block text-quantum-cyan mb-1">Status</span>
-              Unstable
-            </div>
-            <div>
-              <span className="block text-gray-400 mb-1">Vector</span>
-              Null_Ref
+          {/* Error Details */}
+          <div className="mt-10 max-w-md mx-auto">
+            <div className="glass-card p-5 text-left font-mono text-sm border border-white/5 bg-white/5 backdrop-blur-sm rounded-lg">
+              <div className="flex items-center gap-2 mb-3 text-gray-500 border-b border-white/5 pb-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                <span className="ml-2 text-xs uppercase tracking-wider">quantum_error.log</span>
+              </div>
+              <div className="space-y-1.5 text-xs font-medium">
+                <p><span className="text-quantum-violet">ERROR</span> <span className="text-gray-500">[{timestamp || '---'}]</span></p>
+                <p className="text-gray-400">Page not found in quantum realm</p>
+                <p><span className="text-quantum-cyan">STATUS:</span> <span className="text-red-400">404_QUANTUM_COLLAPSE</span></p>
+                <p><span className="text-quantum-cyan">VECTOR:</span> <span className="text-gray-400">NULL_REFERENCE</span></p>
+              </div>
             </div>
           </div>
-
         </div>
       </section>
 
