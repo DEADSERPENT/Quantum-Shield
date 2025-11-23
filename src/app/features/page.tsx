@@ -190,11 +190,11 @@ export default function FeaturesPage() {
                   <th className="text-left p-6 text-gray-400 font-medium">Feature</th>
                   <th className="text-center p-6">
                     <div className="text-quantum-cyan font-display font-bold text-lg">QuantumShield One</div>
-                    <div className="text-sm text-gray-500 mt-1">$299</div>
+                    <div className="text-sm text-gray-500 mt-1">₹24,999</div>
                   </th>
                   <th className="text-center p-6">
                     <div className="text-quantum-violet font-display font-bold text-lg">QuantumShield Pro</div>
-                    <div className="text-sm text-gray-500 mt-1">$599</div>
+                    <div className="text-sm text-gray-500 mt-1">₹49,999</div>
                   </th>
                 </tr>
               </thead>

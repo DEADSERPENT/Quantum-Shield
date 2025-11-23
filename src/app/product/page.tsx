@@ -99,13 +99,13 @@ export default function ProductPage() {
   const models = [
     {
       name: 'QuantumShield One',
-      price: '$299',
+      price: '₹24,999',
       features: ['ML-KEM-768', 'USB-C', 'FIDO2', '2-year warranty'],
       color: 'from-quantum-cyan to-quantum-violet',
     },
     {
       name: 'QuantumShield Pro',
-      price: '$599',
+      price: '₹49,999',
       features: ['ML-KEM-1024', 'USB-C + NFC + BLE', 'FIDO2 + PKCS#11', '5-year warranty'],
       color: 'from-quantum-violet to-quantum-magenta',
       featured: true,
