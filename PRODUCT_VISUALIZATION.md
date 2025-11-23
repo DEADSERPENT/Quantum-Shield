@@ -1,6 +1,16 @@
 # QuantumShield Product Visualization Guide
 
-> **Design specifications for physical hardware manufacturing**
+> **Comprehensive design specifications for physical hardware manufacturing**
+
+<p align="center">
+<strong>CONFIDENTIAL - INTERNAL USE ONLY</strong>
+</p>
+
+---
+
+## Executive Summary
+
+This document provides complete design and manufacturing specifications for the QuantumShield hardware security key product line. It serves as the definitive reference for industrial designers, hardware engineers, and manufacturing partners.
 
 ---
 
@@ -722,16 +732,45 @@ Side View (With Tamper Detection):
 ---
 
 ## Document Version
-- **Version**: 1.0
-- **Date**: 2025-01-21
-- **Author**: QuantumShield Design Team
-- **Status**: Product Specification - Ready for Prototyping
+
+| Field | Value |
+|-------|-------|
+| **Version** | 2.0 |
+| **Date** | November 24, 2025 |
+| **Author** | QuantumShield Design Team |
+| **Status** | Product Specification - Production Ready |
+| **Classification** | Confidential |
+
+---
+
+## Revision History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | Jan 21, 2025 | Design Team | Initial specification |
+| 2.0 | Nov 24, 2025 | Design Team | Updated for production, added manufacturing details |
 
 ---
 
 ## Contact for Design Queries
-- **Email**: design@quantumshield.io
-- **Phone**: +91 80 4567 8900
-- **Address**: Bengaluru, Karnataka, India
 
-**© 2025 QuantumShield. All design specifications are confidential and proprietary.**
+| Department | Contact |
+|------------|---------|
+| **Website** | [quantum-shield-vert.vercel.app](https://quantum-shield-vert.vercel.app/) |
+| **GitHub** | [github.com/DEADSERPENT/quantum-Shield](https://github.com/DEADSERPENT/quantum-Shield) |
+| **Contact Page** | [quantum-shield-vert.vercel.app/contact](https://quantum-shield-vert.vercel.app/contact) |
+| **Location** | Bengaluru, Karnataka, India |
+
+---
+
+## Legal Notice
+
+This document contains confidential and proprietary information belonging to QuantumShield.
+Unauthorized reproduction, distribution, or disclosure of this document or any information
+contained herein is strictly prohibited without prior written consent from QuantumShield.
+
+**© 2025 QuantumShield. All rights reserved.**
+
+---
+
+**Made with pride in India**
