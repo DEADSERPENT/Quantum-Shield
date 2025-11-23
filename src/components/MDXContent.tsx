@@ -77,7 +77,24 @@ export function MDXContent({ content }: MDXContentProps) {
         </li>
       );
     }
-    // Numbered lists
+    // Numbered lists with bold text (e.g., "1. **Bold text** - description")
+    else if (line.match(/^\d+\. \*\*/) && line.includes('**')) {
+      const num = line.match(/^(\d+)\./)?.[1];
+      const content = line.substring(line.indexOf('. ') + 2);
+      const match = content.match(/\*\*(.+?)\*\*(.+)?/);
+      if (match) {
+        elements.push(
+          <li key={idx} className="ml-6 mb-2.5 flex items-start gap-3">
+            <span className="text-quantum-cyan font-semibold min-w-[1.5rem]">{num}.</span>
+            <span className="flex-1">
+              <strong className="text-quantum-cyan font-semibold">{match[1]}</strong>
+              <span className="text-gray-300">{match[2] || ''}</span>
+            </span>
+          </li>
+        );
+      }
+    }
+    // Regular numbered lists
     else if (line.match(/^\d+\. /)) {
       const num = line.match(/^(\d+)\./)?.[1];
       elements.push(
