@@ -26,6 +26,7 @@ const Header: React.FC = () => {
 
   return (
     <header
+      role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'border-b border-white/10 shadow-2xl'
@@ -37,16 +38,16 @@ const Header: React.FC = () => {
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
       }}
     >
-      <nav className="container mx-auto px-6 md:px-12">
+      <nav className="container mx-auto px-4 sm:px-6 md:px-12" aria-label="Main navigation">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group" aria-label="QuantumShield - Go to homepage">
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10">
               {/* Animated glow background */}
-              <div className="absolute inset-0 rounded-lg bg-quantum-cyan/20 blur-xl group-hover:bg-quantum-cyan/40 transition-all" />
+              <div className="absolute inset-0 rounded-lg bg-quantum-cyan/20 blur-xl group-hover:bg-quantum-cyan/40 transition-all" aria-hidden="true" />
 
               {/* Logo SVG - Quantum Shield */}
-              <svg viewBox="0 0 40 40" className="relative z-10 w-10 h-10" fill="none">
+              <svg viewBox="0 0 40 40" className="relative z-10 w-8 h-8 sm:w-10 sm:h-10" fill="none" aria-hidden="true">
                 <defs>
                   <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#00ffff" />
@@ -82,7 +83,7 @@ const Header: React.FC = () => {
                 <circle cx="20" cy="30" r="1" fill="#00ffff" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
               </svg>
             </div>
-            <span className="text-xl font-display font-bold gradient-text">
+            <span className="text-lg sm:text-xl font-display font-bold gradient-text">
               QuantumShield
             </span>
           </Link>

@@ -34,29 +34,24 @@ const HeroSection: React.FC = () => {
   const { ref: contentRef, offset: contentOffset } = useParallax<HTMLDivElement>(-0.2);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-quantum-black">
-      {/* Animated mesh gradient background */}
-      <div className="absolute inset-0 bg-mesh-gradient animate-pulse-slow" />
+    <section id="main-content" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-quantum-black">
+      {/* Decorative backgrounds - hidden from screen readers */}
+      <div className="absolute inset-0 bg-mesh-gradient animate-pulse-slow" aria-hidden="true" />
+      <div className="absolute inset-0 bg-hero-gradient" aria-hidden="true" />
+      <div className="absolute inset-0 wave-bg opacity-60" aria-hidden="true" />
+      <div className="quantum-lattice" aria-hidden="true" />
 
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-hero-gradient" />
+      {/* Floating glow orbs - decorative */}
+      <div className="glow-orb w-96 h-96 bg-quantum-violet/30 top-1/4 -left-48" aria-hidden="true" />
+      <div className="glow-orb w-80 h-80 bg-quantum-cyan/20 bottom-1/4 -right-40" style={{ animationDelay: '5s' }} aria-hidden="true" />
+      <div className="glow-orb w-64 h-64 bg-quantum-pink/20 top-1/2 left-1/3" style={{ animationDelay: '10s' }} aria-hidden="true" />
 
-      {/* Quantum wave patterns */}
-      <div className="absolute inset-0 wave-bg opacity-60" />
-
-      {/* Animated quantum lattice grid */}
-      <div className="quantum-lattice" />
-
-      {/* Floating glow orbs */}
-      <div className="glow-orb w-96 h-96 bg-quantum-violet/30 top-1/4 -left-48" />
-      <div className="glow-orb w-80 h-80 bg-quantum-cyan/20 bottom-1/4 -right-40" style={{ animationDelay: '5s' }} />
-      <div className="glow-orb w-64 h-64 bg-quantum-pink/20 top-1/2 left-1/3" style={{ animationDelay: '10s' }} />
-
-      {/* Enhanced animated particles with parallax */}
+      {/* Enhanced animated particles with parallax - decorative */}
       <div
         ref={particleRef}
         className="absolute inset-0 overflow-hidden pointer-events-none"
         style={{ transform: `translateY(${particleOffset * 0.5}px)` }}
+        aria-hidden="true"
       >
         {particlePositions.map((particle, i) => (
           <div
@@ -74,19 +69,19 @@ const HeroSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Scan lines effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
+      {/* Scan lines effect - decorative */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]" aria-hidden="true"
         style={{
           backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px)',
         }}
       />
 
-      {/* Bottom gradient fade for smooth transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-quantum-black via-quantum-black/80 to-transparent z-[5] pointer-events-none" />
+      {/* Bottom gradient fade - decorative */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-quantum-black via-quantum-black/80 to-transparent z-[5] pointer-events-none" aria-hidden="true" />
 
       {/* Main content container */}
-      <div className="relative z-20 container mx-auto px-6 md:px-12">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-screen pt-32 pb-32">
+      <div className="relative z-20 container mx-auto px-4 sm:px-6 md:px-12">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center min-h-screen pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-24 md:pb-32">
 
           {/* Left Column - Text Content */}
           <div
@@ -104,7 +99,7 @@ const HeroSection: React.FC = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-[1.1] tracking-tight animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-[1.1] tracking-tight animate-fade-in-up">
               <span className="text-white">The Future of</span>
               <br />
               <span className="gradient-text">Digital Security</span>
@@ -126,19 +121,19 @@ const HeroSection: React.FC = () => {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <Link href="/pricing" className="btn-primary group w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <Link href="/pricing" className="btn-primary group w-full sm:w-auto" aria-label="Order QuantumShield now">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Order Now
-                  <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
               </Link>
-              <Link href="/technology" className="btn-secondary group w-full sm:w-auto">
+              <Link href="/technology" className="btn-secondary group w-full sm:w-auto" aria-label="Explore our technology">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Explore Tech
-                  <svg className="w-4 h-4 transform group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 transform group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </span>
@@ -159,8 +154,11 @@ const HeroSection: React.FC = () => {
           {/* Right Column - Device visualization with parallax */}
           <div
             ref={deviceRef}
-            className="relative mx-auto w-full max-w-[500px] lg:max-w-none aspect-square"
+            className="relative mx-auto w-full max-w-[400px] sm:max-w-[500px] lg:max-w-none aspect-square"
             style={{ transform: `translateY(${-deviceOffset * 0.5}px)` }}
+            aria-hidden="true"
+            role="img"
+            aria-label="QuantumShield device visualization"
           >
           {/* Multiple rotating quantum rings */}
           <div className="absolute inset-0 animate-rotate-slow">

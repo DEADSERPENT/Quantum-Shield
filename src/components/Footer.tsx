@@ -57,19 +57,19 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-quantum-black border-t border-glass-border pt-16 pb-8 px-4">
+    <footer role="contentinfo" className="bg-quantum-black border-t border-glass-border pt-12 sm:pt-16 pb-8 px-4">
       <div className="container mx-auto">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-4 group">
+            <Link href="/" className="flex items-center gap-3 mb-4 group" aria-label="QuantumShield - Go to homepage">
               <div className="relative w-10 h-10">
                 {/* Animated glow background */}
-                <div className="absolute inset-0 rounded-lg bg-quantum-cyan/20 blur-xl group-hover:bg-quantum-cyan/40 transition-all" />
+                <div className="absolute inset-0 rounded-lg bg-quantum-cyan/20 blur-xl group-hover:bg-quantum-cyan/40 transition-all" aria-hidden="true" />
 
                 {/* Logo SVG - Quantum Shield */}
-                <svg viewBox="0 0 40 40" className="relative z-10 w-10 h-10" fill="none">
+                <svg viewBox="0 0 40 40" className="relative z-10 w-10 h-10" fill="none" aria-hidden="true">
                   <defs>
                     <linearGradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#00ffff" />

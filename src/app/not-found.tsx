@@ -17,10 +17,11 @@ export default function NotFound() {
   const [glitchActive, setGlitchActive] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [timestamp, setTimestamp] = useState('');
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   // Generate particles only on client side to avoid hydration mismatch
   const particles = useMemo<Particle[]>(() => {
-    if (!mounted) return [];
+    if (!mounted || prefersReducedMotion) return [];
     return [...Array(20)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
@@ -28,20 +29,47 @@ export default function NotFound() {
       delay: `${Math.random() * 2}s`,
       duration: `${2 + Math.random() * 3}s`,
     }));
-  }, [mounted]);
+  }, [mounted, prefersReducedMotion]);
 
   useEffect(() => {
     setMounted(true);
-    setTimestamp(new Date().toISOString());
 
-    // Random glitch effect
-    const glitchInterval = setInterval(() => {
-      setGlitchActive(true);
-      setTimeout(() => setGlitchActive(false), 150);
-    }, 3000);
+    // --- New Timestamp Logic ---
+    const now = new Date();
+    const offset = -now.getTimezoneOffset();
+    // Using Math.abs ensures hours are positive for formatting, sign is handled in gmtString
+    const hours = Math.floor(Math.abs(offset) / 60).toString().padStart(2, '0');
+    const minutes = Math.abs(offset % 60).toString().padStart(2, '0');
+    const gmtString = `GMT${offset >= 0 ? '+' : '-'}${hours}:${minutes}`;
+
+    setTimestamp(
+      `${now.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })} | ${
+        now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      } | ${gmtString} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`
+    );
+    // ---------------------------
+
+    // Check for reduced motion preference
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(motionQuery.matches);
+
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    motionQuery.addEventListener('change', handleMotionChange);
+
+    // Random glitch effect - only if motion is allowed
+    let glitchInterval: NodeJS.Timeout | null = null;
+    if (!motionQuery.matches) {
+      glitchInterval = setInterval(() => {
+        setGlitchActive(true);
+        setTimeout(() => setGlitchActive(false), 150);
+      }, 3000);
+    }
 
     return () => {
-      clearInterval(glitchInterval);
+      if (glitchInterval) clearInterval(glitchInterval);
+      motionQuery.removeEventListener('change', handleMotionChange);
     };
   }, []);
 
@@ -49,12 +77,12 @@ export default function NotFound() {
     <main className="bg-quantum-black min-h-screen flex flex-col overflow-hidden">
       <Header />
 
-      <section className="relative flex-grow flex flex-col items-center justify-center min-h-[calc(100vh-80px)] overflow-hidden py-10">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-quantum-dark via-quantum-black to-quantum-charcoal" />
+      <section className="relative flex-grow flex flex-col items-center justify-center min-h-[calc(100vh-80px)] overflow-hidden py-8 sm:py-10">
+        {/* Animated Background - decorative */}
+        <div className="absolute inset-0 bg-gradient-to-br from-quantum-dark via-quantum-black to-quantum-charcoal" aria-hidden="true" />
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-20">
+        {/* Grid Pattern - decorative */}
+        <div className="absolute inset-0 opacity-20" aria-hidden="true">
           <div
             className="absolute inset-0"
             style={{
@@ -67,12 +95,12 @@ export default function NotFound() {
           />
         </div>
 
-        {/* Floating Particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating Particles - decorative, respect reduced motion */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           {particles.map((particle, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 rounded-full animate-pulse"
+              className={`absolute w-1 h-1 rounded-full ${prefersReducedMotion ? '' : 'animate-pulse'}`}
               style={{
                 left: particle.left,
                 top: particle.top,
@@ -85,8 +113,8 @@ export default function NotFound() {
         </div>
 
         {/* Quantum Shield 3D Icon - Centered Behind Content */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] opacity-10 pointer-events-none z-0">
-          <svg viewBox="0 0 200 200" className="w-full h-full animate-spin-slow">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[600px] md:h-[600px] opacity-10 pointer-events-none z-0" aria-hidden="true">
+          <svg viewBox="0 0 200 200" className={`w-full h-full ${prefersReducedMotion ? '' : 'animate-spin-slow'}`} aria-hidden="true">
             <defs>
               <linearGradient id="shieldGrad404" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#00ffff" />
@@ -115,7 +143,8 @@ export default function NotFound() {
           {/* 404 Display */}
           <div className="relative inline-block mb-4 md:mb-8">
             <h1
-              className={`text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter ${
+              aria-label="Error 404 - Page not found"
+              className={`text-[5rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter ${
                 glitchActive ? 'animate-pulse' : ''
               }`}
               style={{
@@ -129,22 +158,22 @@ export default function NotFound() {
               404
             </h1>
 
-            {/* Glitch layers */}
+            {/* Glitch layers - decorative */}
             {glitchActive && (
-              <>
-                <h1
-                  className="absolute top-0 left-0 text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-cyan opacity-70"
+              <div aria-hidden="true">
+                <span
+                  className="absolute top-0 left-0 text-[5rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-cyan opacity-70"
                   style={{ transform: 'translate(-3px, -3px)', clipPath: 'inset(0 0 50% 0)' }}
                 >
                   404
-                </h1>
-                <h1
-                  className="absolute top-0 left-0 text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-violet opacity-70"
+                </span>
+                <span
+                  className="absolute top-0 left-0 text-[5rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-display font-black leading-none tracking-tighter text-quantum-violet opacity-70"
                   style={{ transform: 'translate(3px, 3px)', clipPath: 'inset(50% 0 0 0)' }}
                 >
                   404
-                </h1>
-              </>
+                </span>
+              </div>
             )}
           </div>
 
@@ -161,14 +190,15 @@ export default function NotFound() {
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/" className="btn-primary group w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
+              <Link href="/" className="btn-primary group w-full sm:w-auto" aria-label="Return to home page">
                 <span className="flex items-center justify-center gap-2">
                   <svg
                     className="w-5 h-5 transition-transform group-hover:-translate-x-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
@@ -176,7 +206,7 @@ export default function NotFound() {
                 </span>
               </Link>
 
-              <Link href="/help" className="btn-secondary group w-full sm:w-auto">
+              <Link href="/help" className="btn-secondary group w-full sm:w-auto" aria-label="Visit help center">
                 <span className="flex items-center justify-center gap-2">
                   Help Center
                   <svg
@@ -184,6 +214,7 @@ export default function NotFound() {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -193,18 +224,18 @@ export default function NotFound() {
           </div>
 
           {/* Error Details */}
-          <div className="mt-10 max-w-md mx-auto">
-            <div className="glass-card p-5 text-left font-mono text-sm border border-white/5 bg-white/5 backdrop-blur-sm rounded-lg">
+          <div className="mt-8 sm:mt-10 max-w-md mx-auto px-2 sm:px-0">
+            <div className="glass-card p-4 sm:p-5 text-left font-mono text-sm border border-white/5 bg-white/5 backdrop-blur-sm rounded-lg" role="status" aria-label="Error details">
               <div className="flex items-center gap-2 mb-3 text-gray-500 border-b border-white/5 pb-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                <span className="ml-2 text-xs uppercase tracking-wider">quantum_error.log</span>
+                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-500" aria-hidden="true" />
+                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-yellow-500" aria-hidden="true" />
+                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-500" aria-hidden="true" />
+                <span className="ml-2 text-[10px] sm:text-xs uppercase tracking-wider truncate">quantum_error.log</span>
               </div>
-              <div className="space-y-1.5 text-xs font-medium">
-                <p><span className="text-quantum-violet">ERROR</span> <span className="text-gray-500">[{timestamp || '---'}]</span></p>
+              <div className="space-y-1.5 text-[10px] sm:text-xs font-medium overflow-hidden">
+                <p className="truncate"><span className="text-quantum-violet">ERROR</span> <span className="text-gray-500">[{timestamp || '---'}]</span></p>
                 <p className="text-gray-400">Page not found in quantum realm</p>
-                <p><span className="text-quantum-cyan">STATUS:</span> <span className="text-red-400">404_QUANTUM_COLLAPSE</span></p>
+                <p className="truncate"><span className="text-quantum-cyan">STATUS:</span> <span className="text-red-400">404_QUANTUM_COLLAPSE</span></p>
                 <p><span className="text-quantum-cyan">VECTOR:</span> <span className="text-gray-400">NULL_REFERENCE</span></p>
               </div>
             </div>

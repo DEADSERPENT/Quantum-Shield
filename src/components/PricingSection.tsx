@@ -70,10 +70,10 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
 
       <div className={`absolute inset-0 bg-gradient-to-br from-quantum-cyan/5 via-transparent to-quantum-violet/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl`} />
 
-      <div className="mb-8 flex justify-center">
+      <div className="mb-8 flex justify-center" aria-hidden="true">
         {tier.highlighted ? (
           // QuantumShield Pro - Enterprise 3D Icon
-          <svg viewBox="0 0 120 80" className="w-40 h-24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 80" className="w-40 h-24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id={`proGrad-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#00ffff" stopOpacity="0.9" />
@@ -139,7 +139,7 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
           </svg>
         ) : (
           // QuantumShield One - Personal 3D Icon
-          <svg viewBox="0 0 120 80" className="w-36 h-20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 120 80" className="w-36 h-20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id={`oneGrad-${index}`} x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.8" />
@@ -228,6 +228,7 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -236,7 +237,7 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
                 d="M5 13l4 4L19 7"
               />
             </svg>
-            <span className="text-sm text-gray-300">{feature}</span>
+            <span className="text-sm text-gray-300" id={`feature-${index}-${idx}`}>{feature}</span>
           </li>
         ))}
       </ul>
@@ -254,14 +255,15 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
 
       <div className="mt-4 text-center relative z-10">
         <span className="text-xs text-gray-500 flex items-center justify-center gap-1">
-          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
           </svg>
           Secure checkout
         </span>
       </div>
 
-      <div className="absolute top-0 right-0 w-24 h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+      {/* Corner decoration */}
+      <div className="absolute top-0 right-0 w-24 h-24 opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true">
         <div className={`absolute top-4 right-4 w-12 h-px bg-gradient-to-l ${tier.highlighted ? 'from-quantum-cyan' : 'from-quantum-violet'} to-transparent`} />
         <div className={`absolute top-4 right-4 h-12 w-px bg-gradient-to-b ${tier.highlighted ? 'from-quantum-cyan' : 'from-quantum-violet'} to-transparent`} />
       </div>
@@ -272,7 +274,8 @@ const PricingCard = ({ tier, index }: { tier: PricingTier; index: number }) => {
 const PricingSection: React.FC = () => {
   return (
     <section className="section-padding bg-gradient-to-b from-quantum-charcoal/30 to-quantum-black relative overflow-hidden">
-      <div className="absolute inset-0">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-violet-glow opacity-20" />
         <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-cyan-glow opacity-20" />
       </div>
