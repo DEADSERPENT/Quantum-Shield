@@ -34,10 +34,9 @@ export default function NotFound() {
   useEffect(() => {
     setMounted(true);
 
-    // --- New Timestamp Logic ---
+    // --- Timestamp Logic ---
     const now = new Date();
     const offset = -now.getTimezoneOffset();
-    // Using Math.abs ensures hours are positive for formatting, sign is handled in gmtString
     const hours = Math.floor(Math.abs(offset) / 60).toString().padStart(2, '0');
     const minutes = Math.abs(offset % 60).toString().padStart(2, '0');
     const gmtString = `GMT${offset >= 0 ? '+' : '-'}${hours}:${minutes}`;
@@ -47,7 +46,7 @@ export default function NotFound() {
         now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
       } | ${gmtString} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`
     );
-    // ---------------------------
+    // -----------------------
 
     // Check for reduced motion preference
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -224,16 +223,20 @@ export default function NotFound() {
           </div>
 
           {/* Error Details */}
-          <div className="mt-8 sm:mt-10 max-w-md mx-auto px-2 sm:px-0">
-            <div className="glass-card p-4 sm:p-5 text-left font-mono text-sm border border-white/5 bg-white/5 backdrop-blur-sm rounded-lg" role="status" aria-label="Error details">
+          {/* Updated: Increased max-w to xl to give the log more room */}
+          <div className="mt-8 sm:mt-10 max-w-xl mx-auto px-2 sm:px-0">
+            <div className="glass-card p-4 sm:p-5 text-left font-mono text-sm border border-white/5 bg-white/5 backdrop-blur-sm rounded-lg w-full" role="status" aria-label="Error details">
               <div className="flex items-center gap-2 mb-3 text-gray-500 border-b border-white/5 pb-2">
                 <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-500" aria-hidden="true" />
                 <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-yellow-500" aria-hidden="true" />
                 <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-500" aria-hidden="true" />
                 <span className="ml-2 text-[10px] sm:text-xs uppercase tracking-wider truncate">quantum_error.log</span>
               </div>
-              <div className="space-y-1.5 text-[10px] sm:text-xs font-medium overflow-hidden">
-                <p className="truncate"><span className="text-quantum-violet">ERROR</span> <span className="text-gray-500">[{timestamp || '---'}]</span></p>
+              <div className="space-y-1.5 text-[10px] sm:text-xs font-medium">
+                {/* Updated: Removed 'truncate', added 'whitespace-normal break-words' */}
+                <p className="whitespace-normal break-words leading-relaxed">
+                  <span className="text-quantum-violet">ERROR</span> <span className="text-gray-500">[{timestamp || '---'}]</span>
+                </p>
                 <p className="text-gray-400">Page not found in quantum realm</p>
                 <p className="truncate"><span className="text-quantum-cyan">STATUS:</span> <span className="text-red-400">404_QUANTUM_COLLAPSE</span></p>
                 <p><span className="text-quantum-cyan">VECTOR:</span> <span className="text-gray-400">NULL_REFERENCE</span></p>
